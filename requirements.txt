@@ -1,6 +1,2 @@
-flask
 slack_sdk
 selenium
-webdriver-manager
-pillow
-gunicorn
