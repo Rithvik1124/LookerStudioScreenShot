@@ -12,6 +12,8 @@ import os
 def init_selenium():
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")  # Enable headless mode
+    options.add_argument("--no-sandbox")
+    options.binary_location = "/usr/bin/chromium"
     options.add_argument("--disable-gpu")
     driver = webdriver.Chrome(options=options)
     return driver
