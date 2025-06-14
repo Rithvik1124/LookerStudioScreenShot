@@ -31,9 +31,9 @@ jobs:
         run: |
           python capture_screenshot.py "Sunoh (Google)" "last 5 days"
         
-      # Step 5: Upload screenshot to GitHub (updated to v3)
+      # Step 5: Upload screenshot to GitHub (updated to v4)
       - name: Upload Screenshot as Artifact
-        uses: actions/upload-artifact@v3  # Use v3 for the latest version
+        uses: actions/upload-artifact@v4  # Use v4 for the latest version
         with:
           name: screenshot
           path: full_screenshot.png
