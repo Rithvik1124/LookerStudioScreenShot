@@ -1,3 +1,4 @@
 streamlit
 selenium
 Pillow
+chromium-browser
