@@ -1,5 +1,6 @@
-streamlit
+flask
+slack_sdk
 selenium
-chromium
 webdriver-manager
-Pillow
+pillow
+gunicorn
