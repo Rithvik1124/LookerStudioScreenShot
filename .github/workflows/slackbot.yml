@@ -27,4 +27,4 @@ jobs:
         run: |
           python slack_bot.py
         env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}  # Ensure token is passed correctly
