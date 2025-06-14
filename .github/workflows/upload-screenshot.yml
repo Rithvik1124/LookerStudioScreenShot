@@ -1,21 +1,22 @@
-name: Upload Screenshot to GitHub Pages
+name: Run Screenshot Script
 
 on:
   push:
     branches:
-      - main  # Trigger the workflow on push to the main branch
+      - main  # Trigger workflow on push to the main branch
+  workflow_dispatch:  # Allows manual trigger from GitHub Actions UI
 
 jobs:
-  upload:
+  capture_screenshot:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
+      # Step 1: Checkout the code from the repository
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 2: Set up Python environment
-      - name: Set up Python
+      # Step 2: Set up Python
+      - name: Set up Python 3.x
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
@@ -23,18 +24,16 @@ jobs:
       # Step 3: Install dependencies
       - name: Install dependencies
         run: |
-          pip install selenium pillow
+          pip install -r requirements.txt
 
-      # Step 4: Run screenshot capture script
-      - name: Capture screenshot
+      # Step 4: Run the capture_screenshot.py script with arguments
+      - name: Run capture_screenshot.py
         run: |
-          python capture_screenshot.py  # This will generate the screenshot
-
-      # Step 5: Push the screenshot to GitHub
-      - name: Upload screenshot
-        run: |
-          git config --global user.email "your-email@example.com"
-          git config --global user.name "Your GitHub Username"
-          git add screenshots/*.png
-          git commit -m "Add new screenshot"
-          git push origin main
+          python capture_screenshot.py "Sunoh (Google)" "last 5 days"
+        
+      # Step 5: Upload screenshot to GitHub (optional)
+      - name: Upload Screenshot as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshot
+          path: full_screenshot.png
