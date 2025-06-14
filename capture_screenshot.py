@@ -1,3 +1,4 @@
+import argparse
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -21,28 +22,32 @@ reports = {
     "Cove & Lane (Sirf Meta)": "https://lookerstudio.google.com/reporting/b2ae0d43-2e1f-409e-8ea0-0a20e8e89140"
 }
 
-# Allow user to select the report dynamically
-selected_report_name = input("Enter the report name (e.g., 'Sunoh (Google)'): ")
+# Set up argparse to get user input via command-line arguments
+parser = argparse.ArgumentParser(description="Capture a screenshot of a Looker Studio report")
+parser.add_argument('report_name', type=str, help="Name of the report to capture")
+parser.add_argument('date_range', type=str, choices=['last 3 days', 'last 5 days', 'last 7 days', 'custom range'], help="Date range for the screenshot")
 
-if selected_report_name in reports:
-    report_url = reports[selected_report_name]
+# Parse the arguments
+args = parser.parse_args()
+
+# Get the selected report URL based on user input
+if args.report_name in reports:
+    report_url = reports[args.report_name]
 else:
     print("Invalid report name. Please choose a valid report.")
     report_url = None
 
-# Allow user to select the date range dynamically
-date_range_option = input("Choose a date range (Last 3 Days, Last 5 Days, Last 7 Days, Custom Range): ").lower()
-
-if date_range_option == "last 3 days":
+# Handle date range input
+if args.date_range == "last 3 days":
     end_date = datetime.now() - timedelta(days=1)  # Yesterday
     start_date = end_date - timedelta(days=3)
-elif date_range_option == "last 5 days":
+elif args.date_range == "last 5 days":
     end_date = datetime.now() - timedelta(days=1)
     start_date = end_date - timedelta(days=5)
-elif date_range_option == "last 7 days":
+elif args.date_range == "last 7 days":
     end_date = datetime.now() - timedelta(days=1)
     start_date = end_date - timedelta(days=7)
-elif date_range_option == "custom range":
+elif args.date_range == "custom range":
     start_date_input = input("Enter start date (YYYY-MM-DD): ")
     end_date_input = input("Enter end date (YYYY-MM-DD): ")
     start_date = datetime.strptime(start_date_input, "%Y-%m-%d")
