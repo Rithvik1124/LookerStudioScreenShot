@@ -19,9 +19,8 @@ def init_selenium():
     return driver
 
 # Function to take a screenshot with Selenium
-def capture_screenshot(start_date, end_date, driver):
-    months = {1: "January", 2: "February", 3: "March", 4: "April", 5: "May", 6: "June", 7: "July", 8: "August", 9: "September", 10: "October", 11: "November", 12: "December"}
-    driver.get("https://lookerstudio.google.com/u/0/reporting/d8d41df7-46a3-41ba-ab2b-0d122aa654ed/page/p_mod2aoherd")
+def capture_screenshot(start_date, end_date, driver, report_url):
+    driver.get(report_url)
     time.sleep(25)
 
     try:
@@ -123,8 +122,23 @@ def main():
         """
     )
 
-    # Dropdown for company names
-    company = st.selectbox("Select a Company", ["A", "B", "C"])
+    # Dropdown for Looker Studio report links
+    reports = {
+        "BW Generation (Sirf Meta)": "https://lookerstudio.google.com/reporting/7f396517-bca2-4f32-bdd4-6e3d69bc593b",
+        "Sunoh (Google)": "https://lookerstudio.google.com/reporting/39b65949-427b-46b7-b005-bdb5cc8a109e",
+        "Healow (Google)": "https://lookerstudio.google.com/reporting/8c4d2445-2567-482c-b6e7-fe4b035c704f",
+        "UA": "https://lookerstudio.google.com/reporting/ba3d152c-3c93-4dd6-a4af-f779f598a234",
+        "FCC (Paid Search me Daily Report)": "https://lookerstudio.google.com/reporting/34ca31e9-0dd5-4f5e-88a5-b0c3b1dea831",
+        "Scuderia": "https://lookerstudio.google.com/reporting/da8ba832-1df3-4412-9785-000262daa084",
+        "Confido": "https://lookerstudio.google.com/reporting/7018b15a-0d1a-45e0-b5b1-8eb9122d66be",
+        "KodeKloud": "https://lookerstudio.google.com/reporting/7c9e0649-d145-46e3-a8e5-ee09955071d7",
+        "HPFY (Sirf Google)": "https://lookerstudio.google.com/reporting/8b7be612-b8b5-4acd-bccf-a520fc4da59e",
+        "AOL - Intuition": "https://lookerstudio.google.com/reporting/10eac558-48e9-46eb-b5f9-1a7f0fa1e885",
+        "AOL - SSSY": "https://lookerstudio.google.com/reporting/69aa7bb2-e88c-4d26-8e82-fd9bd56c5f31",
+        "Cove & Lane (Sirf Meta)": "https://lookerstudio.google.com/reporting/b2ae0d43-2e1f-409e-8ea0-0a20e8e89140"
+    }
+
+    company = st.selectbox("Select a Report", list(reports.keys()))
 
     # Buttons for last X days
     button_option = st.radio("Select Date Range", ["Last 3 Days", "Last 5 Days", "Last 7 Days", "Custom Range"])
@@ -151,7 +165,7 @@ def main():
         end_date = [end_date.day, end_date.month, end_date.year]
 
         # Capture the screenshot with Selenium
-        capture_screenshot(start_date, end_date, driver)
+        capture_screenshot(start_date, end_date, driver, reports[company])
 
         # Display image
         image = Image.open("full_screenshot.png")
